@@ -280,6 +280,14 @@ export function StaffBoard({
                     ))}
                     <td className="px-4 py-3">
                       <div className="flex gap-3">
+                        <a
+                          href={`/api/empleados/${employee.id}/contrato`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-medium text-[#9a3412]"
+                        >
+                          PDF
+                        </a>
                         <button
                           type="button"
                           onClick={() => beginEdit(employee)}

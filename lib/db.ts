@@ -61,6 +61,64 @@ function migrate(database: Database.Database) {
     total: number;
   };
   if (row.total === 0) seedRoles(database);
+  seedContracts(database);
+}
+
+const CONTRACT_FILES = [
+  {
+    rol: "LIDER DE CAMARERIA",
+    file: "lider-de-camameria.md",
+    titulo: "Contrato de líder de camarería",
+  },
+  {
+    rol: "AUXILIAR DE ÁREAS PÚBLICAS",
+    file: "auxiliar-areas-publicas.md",
+    titulo: "Contrato de auxiliar de áreas públicas",
+  },
+  {
+    rol: "CAMARERA",
+    file: "camarera.md",
+    titulo: "Contrato de camarera",
+  },
+  {
+    rol: "RECEPCIONISTA",
+    file: "recepcionista.md",
+    titulo: "Contrato de recepcionista",
+  },
+] as const;
+
+function seedContracts(database: Database.Database) {
+  database.exec(`
+    CREATE TABLE IF NOT EXISTS contratos (
+      id INTEGER PRIMARY KEY,
+      rol_id INTEGER NOT NULL UNIQUE REFERENCES roles(id) ON DELETE CASCADE,
+      titulo TEXT NOT NULL,
+      contenido_md TEXT NOT NULL
+    );
+  `);
+
+  const findRole = database.prepare("SELECT id FROM roles WHERE nombre = ?");
+  const upsert = database.prepare(
+    `INSERT INTO contratos (rol_id, titulo, contenido_md)
+     VALUES (?, ?, ?)
+     ON CONFLICT(rol_id) DO UPDATE SET
+       titulo = excluded.titulo,
+       contenido_md = excluded.contenido_md`,
+  );
+
+  const seed = database.transaction(() => {
+    for (const contract of CONTRACT_FILES) {
+      const role = findRole.get(contract.rol) as { id: number } | undefined;
+      if (!role) throw new Error(`No existe el rol ${contract.rol}.`);
+      const contenido = fs.readFileSync(
+        path.join(process.cwd(), "content", "contratos", contract.file),
+        "utf8",
+      );
+      upsert.run(role.id, contract.titulo, contenido.trim());
+    }
+  });
+
+  seed();
 }
 
 function seedRoles(database: Database.Database) {
@@ -95,8 +153,10 @@ function seedRoles(database: Database.Database) {
 
 const globalForDb = globalThis as unknown as { sqlite?: Database.Database };
 
-export const db = globalForDb.sqlite ?? openDatabase();
-
-if (process.env.NODE_ENV !== "production") {
-  globalForDb.sqlite = db;
+if (!globalForDb.sqlite) {
+  globalForDb.sqlite = openDatabase();
+} else {
+  migrate(globalForDb.sqlite);
 }
+
+export const db = globalForDb.sqlite;

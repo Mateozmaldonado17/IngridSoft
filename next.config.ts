@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 const root = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["better-sqlite3"],
+  serverExternalPackages: ["better-sqlite3", "pdfkit"],
   turbopack: {
     root,
   },

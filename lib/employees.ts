@@ -153,6 +153,19 @@ export function saveEmployee(input: {
   };
 }
 
+export function getEmployee(usuarioId: number): EmployeeRecord | null {
+  return listEmployees(null).find((employee) => employee.id === usuarioId) ?? null;
+}
+
+export function getContract(rolId: number): { titulo: string; contenidoMd: string } | null {
+  const row = db
+    .prepare(
+      "SELECT titulo, contenido_md AS contenidoMd FROM contratos WHERE rol_id = ?",
+    )
+    .get(rolId) as { titulo: string; contenidoMd: string } | undefined;
+  return row ?? null;
+}
+
 export function deleteEmployee(usuarioId: number): SaveResult {
   const existing = db
     .prepare("SELECT id FROM usuarios WHERE id = ?")
