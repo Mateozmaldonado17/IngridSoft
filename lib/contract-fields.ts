@@ -493,6 +493,16 @@ export function spokenFromIso(iso: string): string {
   return `${numberToWords(day)} (${day}) de ${MONTHS[month - 1]} de ${yearWords} (${year})`;
 }
 
+export function plainDateFromIso(iso: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso.trim());
+  if (!match) return "";
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  if (!isRealDate(year, month, day) || !yearToWords(year)) return "";
+  return `${day} de ${MONTHS[month - 1]} de ${year}`;
+}
+
 export function isoFromSpoken(value: string): string {
   const match = DATE_TEXT.exec(tidy(value));
   if (!match) return "";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { deleteEmployeeAction, saveEmployeeAction } from "@/app/actions";
 import {
@@ -14,6 +14,7 @@ import {
   spokenFromIso,
   validateValues,
 } from "@/lib/contract-fields";
+import { preavisoDate, type PreavisoFormato, type PreavisoTipo } from "@/lib/preaviso";
 import type { AttributeRecord, EmployeeRecord, RoleRecord } from "@/lib/staff-types";
 
 const COLUMNS = [
@@ -44,6 +45,7 @@ export function StaffBoard({
   const [errores, setErrores] = useState<Record<string, string>>({});
   const [banner, setBanner] = useState("");
   const [pending, setPending] = useState(false);
+  const [preavisoEmployee, setPreavisoEmployee] = useState<EmployeeRecord | null>(null);
 
   const selectedRole = roles.find((role) => role.id === rolId) ?? null;
   const editing = employees.find((employee) => employee.id === editingId) ?? null;
@@ -324,14 +326,13 @@ export function StaffBoard({
                         >
                           PDF
                         </a>
-                        <a
-                          href={`/api/empleados/${employee.id}/preaviso`}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <button
+                          type="button"
+                          onClick={() => setPreavisoEmployee(employee)}
                           className="font-medium text-[#9a3412]"
                         >
                           Preaviso
-                        </a>
+                        </button>
                         <button
                           type="button"
                           onClick={() => beginEdit(employee)}
@@ -356,7 +357,157 @@ export function StaffBoard({
           </table>
         </div>
       </section>
+      {preavisoEmployee ? (
+        <PreavisoDialog employee={preavisoEmployee} onClose={() => setPreavisoEmployee(null)} />
+      ) : null}
     </div>
+  );
+}
+
+function PreavisoDialog({ employee, onClose }: { employee: EmployeeRecord; onClose: () => void }) {
+  const [tipo, setTipo] = useState<PreavisoTipo>("fijo");
+  const [formato, setFormato] = useState<PreavisoFormato>("corto");
+  const [fecha, setFecha] = useState(isoFromSpoken(employee.valores.fecha_fin ?? ""));
+  const fechaTexto = preavisoDate(fecha, formato);
+
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  function generate() {
+    if (!fechaTexto) return;
+    const params = new URLSearchParams({ tipo, formato, fecha });
+    window.open(
+      `/api/empleados/${employee.id}/preaviso?${params.toString()}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+    onClose();
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[#1f1a17]/40 p-4 sm:items-center" onClick={onClose}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="preaviso-titulo"
+        className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl bg-white p-5 shadow-xl sm:p-6"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <h2 id="preaviso-titulo" className="text-lg font-semibold text-[#1f1a17]">
+          Preaviso
+        </h2>
+        <p className="mt-1 text-sm text-[#57534e]">
+          {employee.valores.nombre_trabajador ?? "Empleado"} · C.C. {employee.valores.cedula ?? "—"}
+        </p>
+
+        <fieldset className="mt-5">
+          <legend className="text-sm font-medium text-[#44403c]">Tipo de contrato</legend>
+          <div className="mt-2 grid gap-2 sm:grid-cols-2">
+            <Choice
+              name="tipo"
+              checked={tipo === "fijo"}
+              onChange={() => setTipo("fijo")}
+              title="Término fijo"
+              detail="Aviso de no prórroga, con al menos 30 días, según el artículo 46."
+            />
+            <Choice
+              name="tipo"
+              checked={tipo === "indefinido"}
+              onChange={() => setTipo("indefinido")}
+              title="Término indefinido"
+              detail="Aviso de terminación del contrato, con la fecha en que termina."
+            />
+          </div>
+        </fieldset>
+
+        <label className="mt-5 flex flex-col gap-1.5 text-sm font-medium text-[#44403c]">
+          Fecha
+          <input
+            type="date"
+            min="1900-01-01"
+            max="2099-12-31"
+            value={fecha}
+            onChange={(event) => setFecha(event.target.value)}
+            className={inputClass}
+          />
+        </label>
+
+        <fieldset className="mt-5">
+          <legend className="text-sm font-medium text-[#44403c]">Formato de la fecha</legend>
+          <div className="mt-2 grid gap-2">
+            <Choice
+              name="formato"
+              checked={formato === "hablado"}
+              onChange={() => setFormato("hablado")}
+              title="Como el contrato"
+              detail="Día y año en letras, con el número entre paréntesis."
+            />
+            <Choice
+              name="formato"
+              checked={formato === "corto"}
+              onChange={() => setFormato("corto")}
+              title="Como el preaviso"
+              detail="Día, mes y año en el formato corto del aviso."
+            />
+          </div>
+        </fieldset>
+
+        <p className="mt-4 rounded-lg bg-[#f7f4ef] px-3 py-2 text-sm leading-6 text-[#1f1a17]">
+          {fechaTexto
+            ? tipo === "fijo"
+              ? `En el preaviso: teniendo como fecha de vencimiento el ${fechaTexto}.`
+              : `En el preaviso: teniendo como fecha de terminación el ${fechaTexto}.`
+            : "Elige una fecha válida."}
+        </p>
+
+        <div className="mt-5 flex justify-end gap-3">
+          <button type="button" onClick={onClose} className="h-11 rounded-full px-4 text-sm font-medium text-[#57534e]">
+            Cancelar
+          </button>
+          <button
+            type="button"
+            onClick={generate}
+            disabled={!fechaTexto}
+            className="h-11 rounded-full bg-[#9a3412] px-5 text-sm font-semibold text-white disabled:opacity-60"
+          >
+            Generar preaviso
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Choice({
+  name,
+  checked,
+  onChange,
+  title,
+  detail,
+}: {
+  name: string;
+  checked: boolean;
+  onChange: () => void;
+  title: string;
+  detail: string;
+}) {
+  return (
+    <label
+      className={`flex cursor-pointer gap-3 rounded-xl border px-3 py-3 ${
+        checked ? "border-[#9a3412] bg-[#fff7ed]" : "border-[#e7e0d6] bg-white"
+      }`}
+    >
+      <input type="radio" name={name} checked={checked} onChange={onChange} className="mt-1" />
+      <span>
+        <span className="block text-sm font-medium text-[#1f1a17]">{title}</span>
+        <span className="mt-0.5 block text-sm font-normal leading-5 text-[#78716c]">{detail}</span>
+      </span>
+    </label>
   );
 }
 
