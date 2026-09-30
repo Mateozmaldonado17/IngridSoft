@@ -1,6 +1,9 @@
 import PDFDocument from "pdfkit";
 
-export function renderContractPdf(markdown: string): Promise<Buffer> {
+export function renderContractPdf(
+  markdown: string,
+  options?: { centerTitle?: boolean },
+): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({
       size: "LETTER",
@@ -10,15 +13,15 @@ export function renderContractPdf(markdown: string): Promise<Buffer> {
     doc.on("data", (chunk: Buffer) => chunks.push(chunk));
     doc.on("end", () => resolve(Buffer.concat(chunks)));
     doc.on("error", reject);
-    writeMarkdown(doc, markdown);
+    writeMarkdown(doc, markdown, options?.centerTitle !== false);
     doc.end();
   });
 }
 
-function writeMarkdown(doc: PDFKit.PDFDocument, markdown: string) {
+function writeMarkdown(doc: PDFKit.PDFDocument, markdown: string, centerTitle: boolean) {
   const width = doc.page.width - doc.page.margins.left - doc.page.margins.right;
   const blocks = markdown.replace(/\r\n/g, "\n").trim().split(/\n{2,}/);
-  let contractTitle = true;
+  let contractTitle = centerTitle;
 
   for (const block of blocks) {
     const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);

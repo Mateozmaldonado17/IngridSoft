@@ -278,6 +278,14 @@ export function StaffBoard({
                         >
                           PDF
                         </a>
+                        <a
+                          href={`/api/empleados/${employee.id}/preaviso`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-medium text-[#9a3412]"
+                        >
+                          Preaviso
+                        </a>
                         <button
                           type="button"
                           onClick={() => beginEdit(employee)}
