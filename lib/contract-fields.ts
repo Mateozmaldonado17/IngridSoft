@@ -120,12 +120,11 @@ const SIGNATURE =
   "CARTAGENA, a los dieciséis (16) días del mes de septiembre de dos mil veintiséis (2026)";
 
 export const TYPE_HINTS: Record<FieldType, string> = {
-  texto: "Solo letras y espacios.",
-  numerico: "Numérico con puntos de miles, entre 6 y 10 dígitos.",
-  moneda: "Pesos con $ y puntos de miles, sin decimales.",
-  fecha_texto:
-    "Día en letras, número entre paréntesis, mes y año en letras con el año entre paréntesis.",
-  lugar_fecha: "Ciudad en mayúsculas, coma y fecha en letras.",
+  texto: "Solo letras. Los números se descartan solos.",
+  numerico: "Escribe solo los dígitos. Los puntos de miles se agregan solos.",
+  moneda: "Escribe el valor en pesos. El signo $ y los puntos se agregan solos.",
+  fecha_texto: "Elige la fecha. El texto del contrato se escribe solo.",
+  lugar_fecha: "Escribe la ciudad y elige la fecha. La frase de firma se escribe sola.",
 };
 
 export const ROLE_SEEDS: Array<{
@@ -312,37 +311,25 @@ function validateWords(
 }
 
 function validateCedula(original: string): { value: string; error?: string } {
-  const compact = original.trim();
-  if (!/^\d{1,3}(\.\d{3})+$/.test(compact)) {
-    return {
-      value: compact,
-      error: "La cédula debe ser numérica y usar puntos de miles, por ejemplo 1.143.325.667.",
-    };
-  }
-  const digits = compact.replaceAll(".", "");
+  const formatted = formatCedulaInput(original);
+  const digits = formatted.replaceAll(".", "");
   if (!/^[1-9]\d{5,9}$/.test(digits)) {
     return {
-      value: compact,
+      value: formatted,
       error: "La cédula debe tener entre 6 y 10 dígitos y no puede empezar por cero.",
     };
   }
-  return { value: formatThousands(digits) };
+  return { value: formatted };
 }
 
 function validateCurrency(original: string): { value: string; error?: string } {
-  const compact = original.trim();
-  if (!/^\$[1-9]\d{0,2}(\.\d{3})*$/.test(compact)) {
-    return {
-      value: compact,
-      error: "Escribe la moneda con $ y puntos de miles, sin decimales. Ejemplo: $1.750.905.",
-    };
-  }
-  const digits = compact.slice(1).replaceAll(".", "");
+  const formatted = formatCurrencyInput(original);
+  const digits = formatted.replace(/\D/g, "");
   const amount = Number(digits);
-  if (!Number.isSafeInteger(amount) || amount <= 0 || amount > 999_999_999) {
-    return { value: compact, error: "El valor debe ser un entero entre $1 y $999.999.999." };
+  if (!digits || !Number.isSafeInteger(amount) || amount <= 0 || amount > 999_999_999) {
+    return { value: formatted, error: "El valor debe ser un entero entre $1 y $999.999.999." };
   }
-  return { value: `$${formatThousands(digits)}` };
+  return { value: formatted };
 }
 
 function validateDateText(original: string): {
@@ -350,6 +337,10 @@ function validateDateText(original: string): {
   error?: string;
   date?: CalendarDate;
 } {
+  const isoSpoken = spokenFromIso(tidy(original));
+  if (isoSpoken) {
+    return validateDateText(isoSpoken);
+  }
   const value = tidy(original);
   const match = DATE_TEXT.exec(value);
   if (!match) {
@@ -373,7 +364,7 @@ function validatePlaceDate(original: string): {
   if (comma === -1) {
     return {
       value,
-      error: `Separa la ciudad y la fecha con una coma. Ejemplo: ${SIGNATURE}.`,
+      error: "Elige la fecha de firma. La frase del contrato se completa sola.",
     };
   }
   const city = value.slice(0, comma).trim();
@@ -466,6 +457,74 @@ function compareDates(left: CalendarDate, right: CalendarDate): number {
 
 function formatThousands(digits: string): string {
   return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+export function formatCedulaInput(raw: string): string {
+  const digits = raw.replace(/\D/g, "").replace(/^0+/, "").slice(0, 10);
+  if (!digits) return "";
+  return formatThousands(digits);
+}
+
+export function formatCurrencyInput(raw: string): string {
+  const digits = raw.replace(/\D/g, "").replace(/^0+/, "").slice(0, 9);
+  if (!digits) return "";
+  return `$${formatThousands(digits)}`;
+}
+
+export function formatWordsInput(raw: string): string {
+  return raw.replace(/[0-9]/g, "").replace(/[^\p{L}\s]/gu, "").replace(/\s+/g, " ");
+}
+
+export function spokenFromIso(iso: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso.trim());
+  if (!match) return "";
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  if (!isRealDate(year, month, day)) return "";
+  const yearWords = yearToWords(year);
+  if (!yearWords) return "";
+  return `${numberToWords(day)} (${day}) de ${MONTHS[month - 1]} de ${yearWords} (${year})`;
+}
+
+export function isoFromSpoken(value: string): string {
+  const match = DATE_TEXT.exec(tidy(value));
+  if (!match) return "";
+  const parsed = parseSpokenDate(match[1], match[2], match[3], match[4], match[5]);
+  if (typeof parsed === "string") return "";
+  return toIso(parsed);
+}
+
+export function signatureFromParts(city: string, iso: string): string {
+  const clean = city
+    .toLocaleUpperCase("es-CO")
+    .replace(/[^A-ZÁÉÍÓÚÜÑ ]/g, "")
+    .replace(/ {2,}/g, " ")
+    .replace(/^ /, "");
+  const spoken = spokenFromIso(iso);
+  if (!clean.trim()) return "";
+  if (!spoken) return clean;
+  const match = DATE_TEXT.exec(spoken);
+  if (!match) return clean;
+  const dayLabel = Number(match[2]) === 1 ? "día" : "días";
+  const trailing = clean.endsWith(" ") ? " " : "";
+  return `${clean.trim()}${trailing}, a los ${match[1]} (${match[2]}) ${dayLabel} del mes de ${match[3]} de ${match[4]} (${match[5]})`;
+}
+
+export function signatureParts(value: string): { city: string; iso: string } {
+  const comma = value.indexOf(",");
+  if (comma === -1) return { city: value, iso: "" };
+  const city = value.slice(0, comma);
+  const rest = tidy(value.slice(comma + 1));
+  const match = PLACE_DATE.exec(rest);
+  if (!match) return { city, iso: "" };
+  const parsed = parseSpokenDate(match[1], match[2], match[3], match[4], match[5]);
+  if (typeof parsed === "string") return { city, iso: "" };
+  return { city, iso: toIso(parsed) };
+}
+
+function toIso(date: CalendarDate): string {
+  return `${date.year}-${String(date.month).padStart(2, "0")}-${String(date.day).padStart(2, "0")}`;
 }
 
 function tidy(value: string): string {

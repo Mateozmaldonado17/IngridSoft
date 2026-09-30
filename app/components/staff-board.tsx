@@ -3,8 +3,18 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { deleteEmployeeAction, saveEmployeeAction } from "@/app/actions";
-import { TYPE_HINTS, validateValues } from "@/lib/contract-fields";
-import type { EmployeeRecord, RoleRecord } from "@/lib/staff-types";
+import {
+  TYPE_HINTS,
+  formatCedulaInput,
+  formatCurrencyInput,
+  formatWordsInput,
+  isoFromSpoken,
+  signatureFromParts,
+  signatureParts,
+  spokenFromIso,
+  validateValues,
+} from "@/lib/contract-fields";
+import type { AttributeRecord, EmployeeRecord, RoleRecord } from "@/lib/staff-types";
 
 const COLUMNS = [
   ["nombre_trabajador", "Nombre"],
@@ -176,41 +186,21 @@ export function StaffBoard({
         {selectedRole ? (
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {selectedRole.atributos.map((attribute) => (
-              <label
+              <FieldControl
                 key={attribute.clave}
-                className={`flex flex-col gap-1.5 text-sm font-medium text-[#44403c] ${
-                  attribute.tipo === "lugar_fecha" || attribute.tipo === "fecha_texto"
-                    ? "sm:col-span-2"
-                    : ""
-                }`}
-              >
-                {attribute.etiqueta}
-                <input
-                  name={attribute.clave}
-                  value={valores[attribute.clave] ?? ""}
-                  placeholder={attribute.ejemplo}
-                  spellCheck={false}
-                  aria-invalid={Boolean(errores[attribute.clave])}
-                  onChange={(event) => {
-                    const clave = attribute.clave;
-                    setValores((current) => ({
-                      ...current,
-                      [clave]: event.target.value,
-                    }));
-                    setErrores((current) => {
-                      if (!current[clave]) return current;
-                      const next = { ...current };
-                      delete next[clave];
-                      return next;
-                    });
-                  }}
-                  className="h-11 rounded-lg border border-[#d6d3d1] px-3 text-base font-normal text-[#1f1a17] placeholder:text-[#a8a29e]"
-                />
-                <span className="font-normal text-[#78716c]">
-                  {TYPE_HINTS[attribute.tipo]} Ejemplo: {attribute.ejemplo}.
-                </span>
-                {errores[attribute.clave] ? <FieldError message={errores[attribute.clave]} /> : null}
-              </label>
+                attribute={attribute}
+                value={valores[attribute.clave] ?? ""}
+                error={errores[attribute.clave]}
+                onChange={(next) => {
+                  setValores((current) => ({ ...current, [attribute.clave]: next }));
+                  setErrores((current) => {
+                    if (!current[attribute.clave]) return current;
+                    const rest = { ...current };
+                    delete rest[attribute.clave];
+                    return rest;
+                  });
+                }}
+              />
             ))}
           </div>
         ) : null}
@@ -315,6 +305,125 @@ export function StaffBoard({
     </div>
   );
 }
+
+function FieldControl({
+  attribute,
+  value,
+  error,
+  onChange,
+}: {
+  attribute: AttributeRecord;
+  value: string;
+  error?: string;
+  onChange: (value: string) => void;
+}) {
+  const wide = attribute.tipo === "lugar_fecha" || attribute.tipo === "fecha_texto";
+  return (
+    <div className={`flex flex-col gap-1.5 text-sm font-medium text-[#44403c] ${wide ? "sm:col-span-2" : ""}`}>
+      <span>{attribute.etiqueta}</span>
+      {attribute.tipo === "fecha_texto" ? (
+        <DateField value={value} invalid={Boolean(error)} onChange={onChange} />
+      ) : attribute.tipo === "lugar_fecha" ? (
+        <SignatureField value={value} invalid={Boolean(error)} onChange={onChange} />
+      ) : (
+        <input
+          name={attribute.clave}
+          value={value}
+          inputMode={attribute.tipo === "texto" ? "text" : "numeric"}
+          spellCheck={false}
+          aria-invalid={Boolean(error)}
+          placeholder={attribute.tipo === "numerico" ? "1143325667" : attribute.tipo === "moneda" ? "1750905" : undefined}
+          onChange={(event) => onChange(formatFieldInput(attribute.tipo, event.target.value))}
+          className={inputClass}
+        />
+      )}
+      <span className="font-normal text-[#78716c]">{TYPE_HINTS[attribute.tipo]}</span>
+      {showsContractPreview(attribute.tipo, value) ? <ContractPreview value={value} /> : null}
+      {error ? <FieldError message={error} /> : null}
+    </div>
+  );
+}
+
+function DateField({
+  value,
+  invalid,
+  onChange,
+}: {
+  value: string;
+  invalid: boolean;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <input
+      type="date"
+      min="1900-01-01"
+      max="2099-12-31"
+      value={isoFromSpoken(value)}
+      aria-invalid={invalid}
+      onChange={(event) => onChange(spokenFromIso(event.target.value))}
+      className={inputClass}
+    />
+  );
+}
+
+function SignatureField({
+  value,
+  invalid,
+  onChange,
+}: {
+  value: string;
+  invalid: boolean;
+  onChange: (value: string) => void;
+}) {
+  const parts = signatureParts(value);
+  return (
+    <div className="grid gap-3 sm:grid-cols-[1fr_180px]">
+      <input
+        value={parts.city}
+        spellCheck={false}
+        aria-invalid={invalid}
+        placeholder="Cartagena"
+        onChange={(event) => onChange(signatureFromParts(event.target.value, parts.iso))}
+        className={inputClass}
+      />
+      <input
+        type="date"
+        min="1900-01-01"
+        max="2099-12-31"
+        value={parts.iso}
+        aria-invalid={invalid}
+        onChange={(event) => onChange(signatureFromParts(parts.city, event.target.value))}
+        className={inputClass}
+      />
+    </div>
+  );
+}
+
+function formatFieldInput(tipo: AttributeRecord["tipo"], raw: string): string {
+  if (tipo === "numerico") return formatCedulaInput(raw);
+  if (tipo === "moneda") return formatCurrencyInput(raw);
+  if (tipo === "texto") return formatWordsInput(raw);
+  return raw;
+}
+
+function showsContractPreview(tipo: AttributeRecord["tipo"], value: string): boolean {
+  if (!value) return false;
+  if (tipo === "fecha_texto") return true;
+  if (tipo === "lugar_fecha") return value.includes(",");
+  if (tipo === "moneda" || tipo === "numerico") return true;
+  return false;
+}
+
+function ContractPreview({ value }: { value: string }) {
+  return (
+    <p className="rounded-lg bg-[#f7f4ef] px-3 py-2 font-normal leading-6 text-[#1f1a17]">
+      En el contrato: {value}
+    </p>
+  );
+}
+
+const inputClass =
+  "h-11 rounded-lg border border-[#d6d3d1] px-3 text-base font-normal text-[#1f1a17] placeholder:text-[#a8a29e]";
 
 function FieldError({ message }: { message: string }) {
   return <span className="font-normal text-[#b91c1c]">{message}</span>;
