@@ -59,6 +59,16 @@ export function StaffBoard({
     const role = roles.find((item) => item.id === nextRoleId);
     setRolId(nextRoleId);
     setVariante(role && role.variantes.length === 1 ? role.variantes[0].clave : "");
+    if (!editingId && role) {
+      setValores((current) => {
+        const next = { ...current };
+        for (const attribute of role.atributos) {
+          if (attribute.clave !== "remuneracion" && attribute.clave !== "auxilio_transporte") continue;
+          if (!next[attribute.clave]) next[attribute.clave] = attribute.ejemplo;
+        }
+        return next;
+      });
+    }
     setErrores({});
     setBanner("");
   }
@@ -542,7 +552,7 @@ function FieldControl({
           inputMode={attribute.tipo === "texto" ? "text" : "numeric"}
           spellCheck={false}
           aria-invalid={Boolean(error)}
-          placeholder={attribute.tipo === "numerico" ? "1143325667" : attribute.tipo === "moneda" ? "1750905" : undefined}
+          placeholder={attribute.tipo === "numerico" ? "1143325667" : undefined}
           onChange={(event) => onChange(formatFieldInput(attribute.tipo, event.target.value))}
           className={inputClass}
         />
