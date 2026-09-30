@@ -18,6 +18,7 @@ export function renderContractPdf(markdown: string): Promise<Buffer> {
 function writeMarkdown(doc: PDFKit.PDFDocument, markdown: string) {
   const width = doc.page.width - doc.page.margins.left - doc.page.margins.right;
   const blocks = markdown.replace(/\r\n/g, "\n").trim().split(/\n{2,}/);
+  let contractTitle = true;
 
   for (const block of blocks) {
     const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
@@ -25,25 +26,19 @@ function writeMarkdown(doc: PDFKit.PDFDocument, markdown: string) {
 
     if (lines.length === 1 && isHeading(lines[0])) {
       if (doc.y > doc.page.margins.top + 8) doc.moveDown(0.7);
-      writeRich(doc, unwrap(lines[0]), { width, align: "center", heading: true });
+      writeRich(doc, unwrap(lines[0]), {
+        width,
+        align: contractTitle ? "center" : "left",
+        heading: true,
+      });
+      contractTitle = false;
       doc.moveDown(1);
       continue;
     }
 
-    if (lines.every(isListItem)) {
-      for (const line of lines) {
-        writeRich(doc, formatListItem(line), {
-          width: width - 18,
-          align: "justify",
-          indent: 18,
-        });
-        doc.moveDown(0.15);
-      }
-      doc.moveDown(0.35);
-      continue;
+    for (const line of lines) {
+      writeRich(doc, line.replace(/^[-*]\s+/, ""), { width, align: "justify" });
     }
-
-    writeRich(doc, lines.join(" "), { width, align: "justify" });
     doc.moveDown(0.35);
   }
 }
@@ -155,15 +150,6 @@ function ensureRoom(doc: PDFKit.PDFDocument, y: number, lineHeight: number): num
 
 function isHeading(line: string): boolean {
   return /^\*\*.+\*\*$/.test(line);
-}
-
-function isListItem(line: string): boolean {
-  return /^([-*]|\d+\.)\s+/.test(line);
-}
-
-function formatListItem(line: string): string {
-  if (/^\d+\.\s+/.test(line)) return line;
-  return `• ${line.replace(/^[-*]\s+/, "")}`;
 }
 
 function unwrap(line: string): string {

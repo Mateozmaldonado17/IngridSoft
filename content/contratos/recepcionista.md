@@ -32,34 +32,34 @@ EL TRABAJADOR prestará sus servicios en las instalaciones de LYZ HOTELS S.A.S. 
 
 EL TRABAJADOR desempeñará las funciones propias del cargo de {{cargo}}, bajo la coordinación de su jefe inmediato y de acuerdo con los procedimientos internos del hotel. De conformidad con el perfil de cargo suministrado, sus funciones son:
 
-- Recibir turno, revisar novedades, conteo de caja de recepción.
-- Recibir al huésped con excelente atención y expresarle una sincera bienvenida, brindarle la información de todo lo que tiene incluido dentro de su reserva, actividades del hotel, las políticas del hotel y lo que no se puede realizar dentro las instalaciones y habitaciones.
-- Verificar y confirmar las reservas que ingresan en el día y realizar acomodación para compartir con las áreas interesadas.
-- Aplicar de forma eficiente el proceso de check in y cancelación de la cuenta del huésped, para evitar errores de cargo y facturación.
-- Solicitar documentación para registro en sistema de nuestros clientes que tomen servicio alojamiento o pasadías.
-- Ingresar reservas de las plataformas en caso de que no ingresen de forma automática y reportar cualquier novedad.
-- Realizar ventas directas de alojamiento o pasadías en la recepción y reportar en el grupo de WhatsApp de cierres de caja.
-- Identificar si el huésped tiene saldo pendiente, cobrar y recordar siempre el horario de check out a las 12pm.
-- Asegurar la verificación de los pagos que ingresan a través de transferencia o consignación de las diferentes entidades bancarias con el área contable.
-- Al momento del check out se debe solicitar las llaves, se debe saldar consumos adicionales y generar proceso de factura en Erbon, siigo y Tra.
-- Al finalizar el turno enviar cierre de caja al grupo de WhatsApp de socios del hotel e ingresarlo de forma física a la cajilla en la oficina de contabilidad.
-- Contestar WhatsApp y llamadas del teléfono corporativo de recepción.
-- Contestar WhatsApp y llamadas del teléfono corporativo de reservas, así mismo mensaje de las redes sociales cuando ejecutivo comercial solicite apoyo o no se encuentre en el hotel.
-- Realiza tareas asignadas por el jefe inmediato.
-- Asistir a las capacitaciones y reuniones organizadas por su jefe inmediato.
-- Cumplir los objetivos, normas establecidas en el sistema de Gestión Integral, reglamento interno de trabajo, Higiene y Seguridad Industrial.
-- Conocer los factores de riesgo propios de su cargo y de cada oficio a su cargo, a su vez los efectos derivados de la exposición y las medidas preventivas y de protección de toda la empresa.
-- Mantener los lineamientos de ética y rigor en cada una de las funciones realizadas en su cargo.
-- Colaborar activamente en el desarrollo de las actividades de Seguridad Salud Ocupacional de la empresa.
-- Informar al Comité Paritario de Salud Ocupacional sobre cualquier Factor de Riesgo que exista en el sitio de trabajo o cualquier área de la empresa.
-- Informar la ocurrencia de accidentes e incidentes de trabajo en forma oportuna.
-- Informar a Gestión Humana sobre la ocurrencia de situaciones que tengan incidencia con los colaboradores.
-- Aportar con base a su experiencia sugerencias que permitan controlar o evitar riesgos existentes en su lugar de trabajo.
-- Mantener su lugar de trabajo en orden y aseo.
-- Rendir cuenta a los superiores de sus funciones y responsabilidades.
-- Garantizar la satisfacción del cliente interno y externo.
-- Asegurar que los requisitos del SGI se establezcan, implementen y mantengan de acuerdo con las normas establecidas en ISO 9001, ISO 45001:2018 e ISO 14001.
-- Cumplir los lineamientos establecidos en el procedimiento de gestión de residuos sólidos de la compañía.
+Recibir turno, revisar novedades, conteo de caja de recepción.
+Recibir al huésped con excelente atención y expresarle una sincera bienvenida, brindarle la información de todo lo que tiene incluido dentro de su reserva, actividades del hotel, las políticas del hotel y lo que no se puede realizar dentro las instalaciones y habitaciones.
+Verificar y confirmar las reservas que ingresan en el día y realizar acomodación para compartir con las áreas interesadas.
+Aplicar de forma eficiente el proceso de check in y cancelación de la cuenta del huésped, para evitar errores de cargo y facturación.
+Solicitar documentación para registro en sistema de nuestros clientes que tomen servicio alojamiento o pasadías.
+Ingresar reservas de las plataformas en caso de que no ingresen de forma automática y reportar cualquier novedad.
+Realizar ventas directas de alojamiento o pasadías en la recepción y reportar en el grupo de WhatsApp de cierres de caja.
+Identificar si el huésped tiene saldo pendiente, cobrar y recordar siempre el horario de check out a las 12pm.
+Asegurar la verificación de los pagos que ingresan a través de transferencia o consignación de las diferentes entidades bancarias con el área contable.
+Al momento del check out se debe solicitar las llaves, se debe saldar consumos adicionales y generar proceso de factura en Erbon, siigo y Tra.
+Al finalizar el turno enviar cierre de caja al grupo de WhatsApp de socios del hotel e ingresarlo de forma física a la cajilla en la oficina de contabilidad.
+Contestar WhatsApp y llamadas del teléfono corporativo de recepción.
+Contestar WhatsApp y llamadas del teléfono corporativo de reservas, así mismo mensaje de las redes sociales cuando ejecutivo comercial solicite apoyo o no se encuentre en el hotel.
+Realiza tareas asignadas por el jefe inmediato.
+Asistir a las capacitaciones y reuniones organizadas por su jefe inmediato.
+Cumplir los objetivos, normas establecidas en el sistema de Gestión Integral, reglamento interno de trabajo, Higiene y Seguridad Industrial.
+Conocer los factores de riesgo propios de su cargo y de cada oficio a su cargo, a su vez los efectos derivados de la exposición y las medidas preventivas y de protección de toda la empresa.
+Mantener los lineamientos de ética y rigor en cada una de las funciones realizadas en su cargo.
+Colaborar activamente en el desarrollo de las actividades de Seguridad Salud Ocupacional de la empresa.
+Informar al Comité Paritario de Salud Ocupacional sobre cualquier Factor de Riesgo que exista en el sitio de trabajo o cualquier área de la empresa.
+Informar la ocurrencia de accidentes e incidentes de trabajo en forma oportuna.
+Informar a Gestión Humana sobre la ocurrencia de situaciones que tengan incidencia con los colaboradores.
+Aportar con base a su experiencia sugerencias que permitan controlar o evitar riesgos existentes en su lugar de trabajo.
+Mantener su lugar de trabajo en orden y aseo.
+Rendir cuenta a los superiores de sus funciones y responsabilidades.
+Garantizar la satisfacción del cliente interno y externo.
+Asegurar que los requisitos del SGI se establezcan, implementen y mantengan de acuerdo con las normas establecidas en ISO 9001, ISO 45001:2018 e ISO 14001.
+Cumplir los lineamientos establecidos en el procedimiento de gestión de residuos sólidos de la compañía.
 
 **SEXTA. OBLIGACIONES DEL TRABAJADOR**
 

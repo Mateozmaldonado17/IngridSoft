@@ -38,65 +38,65 @@ EL TRABAJADOR desempeñará las funciones propias del cargo de {{cargo}}, bajo l
 
 1. Funciones principales – Áreas Públicas
 
-- Realizar diariamente la limpieza y organización de las áreas públicas, sociales y exteriores del hotel.
-- Mantener en óptimas condiciones de limpieza y presentación el lobby, pasillos, escaleras, zonas de circulación y demás espacios comunes.
-- Realizar la limpieza, desinfección y organización de los baños de áreas públicas.
-- Mantener limpias y organizadas las áreas sociales y espacios destinados al uso de huéspedes.
-- Realizar limpieza y mantenimiento básico de las áreas exteriores del hotel.
-- Verificar constantemente que las áreas públicas se encuentren limpias, organizadas y en buenas condiciones de presentación.
-- Recoger y disponer adecuadamente los residuos generados en las áreas asignadas, de acuerdo con los procedimientos establecidos por el hotel.
-- Informar oportunamente cualquier daño, deterioro, avería, elemento faltante o condición insegura encontrada en las áreas bajo su responsabilidad.
-- Reportar a su jefe inmediato las novedades que puedan afectar la imagen, seguridad o funcionamiento de las áreas públicas.
-- Apoyar en la organización y adecuación de espacios comunes antes, durante y después de actividades o eventos realizados en el hotel.
-- Mantener en orden los elementos, equipos, herramientas e insumos utilizados para el desarrollo de sus funciones.
-- Hacer uso adecuado y responsable de los productos de limpieza y elementos de protección suministrados por el hotel.
-- Mantener una presentación personal adecuada y acorde con los estándares establecidos por el hotel.
+Realizar diariamente la limpieza y organización de las áreas públicas, sociales y exteriores del hotel.
+Mantener en óptimas condiciones de limpieza y presentación el lobby, pasillos, escaleras, zonas de circulación y demás espacios comunes.
+Realizar la limpieza, desinfección y organización de los baños de áreas públicas.
+Mantener limpias y organizadas las áreas sociales y espacios destinados al uso de huéspedes.
+Realizar limpieza y mantenimiento básico de las áreas exteriores del hotel.
+Verificar constantemente que las áreas públicas se encuentren limpias, organizadas y en buenas condiciones de presentación.
+Recoger y disponer adecuadamente los residuos generados en las áreas asignadas, de acuerdo con los procedimientos establecidos por el hotel.
+Informar oportunamente cualquier daño, deterioro, avería, elemento faltante o condición insegura encontrada en las áreas bajo su responsabilidad.
+Reportar a su jefe inmediato las novedades que puedan afectar la imagen, seguridad o funcionamiento de las áreas públicas.
+Apoyar en la organización y adecuación de espacios comunes antes, durante y después de actividades o eventos realizados en el hotel.
+Mantener en orden los elementos, equipos, herramientas e insumos utilizados para el desarrollo de sus funciones.
+Hacer uso adecuado y responsable de los productos de limpieza y elementos de protección suministrados por el hotel.
+Mantener una presentación personal adecuada y acorde con los estándares establecidos por el hotel.
 
 2. Funciones de apoyo a Camarería
 
-- Una vez finalizadas las actividades correspondientes a Áreas Públicas, brindar apoyo al área de camarería de acuerdo con las necesidades de la operación.
-- Apoyar en la limpieza y organización de habitaciones cuando la ocupación del hotel lo requiera.
-- Apoyar en la limpieza y organización de baños, pasillos y demás espacios relacionados con el área de alojamiento.
-- Apoyar en la organización y manejo de lencería cuando sea requerido.
-- Reportar a recepción o al responsable del área cualquier novedad encontrada en las habitaciones durante las labores de apoyo.
-- Informar daños, deterioros, faltantes u objetos olvidados encontrados durante la limpieza de habitaciones.
-- Cumplir las instrucciones impartidas por el responsable del área de camarería durante el tiempo destinado a dicho apoyo.
+Una vez finalizadas las actividades correspondientes a Áreas Públicas, brindar apoyo al área de camarería de acuerdo con las necesidades de la operación.
+Apoyar en la limpieza y organización de habitaciones cuando la ocupación del hotel lo requiera.
+Apoyar en la limpieza y organización de baños, pasillos y demás espacios relacionados con el área de alojamiento.
+Apoyar en la organización y manejo de lencería cuando sea requerido.
+Reportar a recepción o al responsable del área cualquier novedad encontrada en las habitaciones durante las labores de apoyo.
+Informar daños, deterioros, faltantes u objetos olvidados encontrados durante la limpieza de habitaciones.
+Cumplir las instrucciones impartidas por el responsable del área de camarería durante el tiempo destinado a dicho apoyo.
 
 3. Otras funciones
 
-- Brindar atención cordial y respetuosa a los huéspedes cuando sea requerido.
-- Mantener el puesto de trabajo limpio y organizado.
-- Hacer uso adecuado de los equipos, herramientas, productos e insumos asignados.
-- Realizar las demás funciones relacionadas con el cargo que sean asignadas por el jefe inmediato.
+Brindar atención cordial y respetuosa a los huéspedes cuando sea requerido.
+Mantener el puesto de trabajo limpio y organizado.
+Hacer uso adecuado de los equipos, herramientas, productos e insumos asignados.
+Realizar las demás funciones relacionadas con el cargo que sean asignadas por el jefe inmediato.
 
 **RESPONSABILIDADES DEL CARGO**
 
-- Cumplir con las normas, políticas y procedimientos establecidos por el hotel.
-- Mantener en todo momento las áreas públicas bajo su responsabilidad en condiciones adecuadas de limpieza, orden, higiene y presentación.
-- Garantizar el buen uso y conservación de los equipos, herramientas, productos e insumos asignados.
-- Informar oportunamente cualquier situación que pueda representar un riesgo para huéspedes, colaboradores o visitantes.
-- Cumplir con los protocolos de seguridad, higiene y manejo de productos químicos.
-- Mantener los lineamientos de ética y rigor en cada una de las funciones realizadas.
-- Colaborar activamente con las actividades de Seguridad y Salud en el Trabajo.
-- Informar oportunamente accidentes e incidentes de trabajo.
-- Mantener su lugar de trabajo limpio y organizado.
-- Rendir cuenta a sus superiores sobre las funciones y responsabilidades asignadas.
-- Garantizar una adecuada atención y satisfacción del cliente interno y externo.
-- Cumplir con los lineamientos establecidos para la gestión de residuos sólidos.
-- Participar en las reuniones y capacitaciones a las que sea convocado.
+Cumplir con las normas, políticas y procedimientos establecidos por el hotel.
+Mantener en todo momento las áreas públicas bajo su responsabilidad en condiciones adecuadas de limpieza, orden, higiene y presentación.
+Garantizar el buen uso y conservación de los equipos, herramientas, productos e insumos asignados.
+Informar oportunamente cualquier situación que pueda representar un riesgo para huéspedes, colaboradores o visitantes.
+Cumplir con los protocolos de seguridad, higiene y manejo de productos químicos.
+Mantener los lineamientos de ética y rigor en cada una de las funciones realizadas.
+Colaborar activamente con las actividades de Seguridad y Salud en el Trabajo.
+Informar oportunamente accidentes e incidentes de trabajo.
+Mantener su lugar de trabajo limpio y organizado.
+Rendir cuenta a sus superiores sobre las funciones y responsabilidades asignadas.
+Garantizar una adecuada atención y satisfacción del cliente interno y externo.
+Cumplir con los lineamientos establecidos para la gestión de residuos sólidos.
+Participar en las reuniones y capacitaciones a las que sea convocado.
 
 **RENDICIÓN DE CUENTAS**
 
-- Cumplir con las funciones establecidas para el cargo.
-- Garantizar diariamente la limpieza, orden y adecuada presentación de las áreas públicas asignadas.
-- Reportar oportunamente las novedades, daños, deterioros y condiciones inseguras identificadas.
-- Cumplir las actividades de apoyo a camarería cuando sean requeridas por la operación.
+Cumplir con las funciones establecidas para el cargo.
+Garantizar diariamente la limpieza, orden y adecuada presentación de las áreas públicas asignadas.
+Reportar oportunamente las novedades, daños, deterioros y condiciones inseguras identificadas.
+Cumplir las actividades de apoyo a camarería cuando sean requeridas por la operación.
 
 **AUTORIDADES DEL CARGO**
 
-- Suspender o informar cualquier actividad o condición que represente un riesgo para su seguridad, la de los huéspedes o la de otros colaboradores.
-- Informar condiciones que se desvíen de las políticas, procedimientos o estándares establecidos por el hotel.
-- Hacer cumplir, dentro de sus actividades, los lineamientos establecidos para el manejo y disposición de residuos.
+Suspender o informar cualquier actividad o condición que represente un riesgo para su seguridad, la de los huéspedes o la de otros colaboradores.
+Informar condiciones que se desvíen de las políticas, procedimientos o estándares establecidos por el hotel.
+Hacer cumplir, dentro de sus actividades, los lineamientos establecidos para el manejo y disposición de residuos.
 
 **SÉPTIMA. REMUNERACIÓN**
 

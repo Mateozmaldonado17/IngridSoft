@@ -36,21 +36,21 @@ EL TRABAJADOR prestará sus servicios en las instalaciones de LYZ HOTELS S.A.S. 
 
 EL TRABAJADOR desempeñará las funciones propias del cargo de AUXILIAR DE MANTENIMIENTO, bajo la coordinación de su jefe inmediato y de acuerdo con los procedimientos internos del hotel. De conformidad con el perfil de cargo suministrado, sus funciones son:
 
-- Brindar atención cordial y respetuosa a los huéspedes cuando sea requerido.
-- Realizar limpieza de habitaciones del hotel.
-- Acatar las órdenes de trabajo para el día.
-- Realizar reporte de ocupación.
-- Reporte de daños, deterioro y faltantes en las habitaciones.
-- Revisar y reportar al jefe inmediato objetos olvidados por los huéspedes.
-- Realizar acomodación de áreas comunes y salas de diferentes áreas del hotel.
-- Reportar novedades de habitaciones a recepción.
-- Controlar y hacer buen uso de productos de limpieza, y amenities en habitaciones y en baños públicos del hotel.
-- Manejo, selección y reporte de inventario de insumos y lencería.
-- Organizar puesto de trabajo antes de salir de turno.
-- Revisar el mantenimiento de habitaciones (luces, aire, agua, etc).
-- Hacer revisiones constantes durante todo el turno.
-- Recibir y contar lencería al llegar la lavandería.
-- Realizar funciones que le asigne el jefe inmediato.
+Brindar atención cordial y respetuosa a los huéspedes cuando sea requerido.
+Realizar limpieza de habitaciones del hotel.
+Acatar las órdenes de trabajo para el día.
+Realizar reporte de ocupación.
+Reporte de daños, deterioro y faltantes en las habitaciones.
+Revisar y reportar al jefe inmediato objetos olvidados por los huéspedes.
+Realizar acomodación de áreas comunes y salas de diferentes áreas del hotel.
+Reportar novedades de habitaciones a recepción.
+Controlar y hacer buen uso de productos de limpieza, y amenities en habitaciones y en baños públicos del hotel.
+Manejo, selección y reporte de inventario de insumos y lencería.
+Organizar puesto de trabajo antes de salir de turno.
+Revisar el mantenimiento de habitaciones (luces, aire, agua, etc).
+Hacer revisiones constantes durante todo el turno.
+Recibir y contar lencería al llegar la lavandería.
+Realizar funciones que le asigne el jefe inmediato.
 
 **SEXTA. OBLIGACIONES DEL TRABAJADOR**
 

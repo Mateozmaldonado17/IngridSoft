@@ -38,36 +38,36 @@ EL TRABAJADOR desempeñará las funciones propias del cargo de AUXILIAR DE MANTE
 
 **FUNCIONES DEL CARGO**
 
-- Coordinar orden y limpieza del hotel en todas las áreas.
-- Asignación de turnos y trabajos para el personal a cargo.
-- Asignación de trabajo para el día.
-- Realizar reporte de ocupación.
-- Realizar reporte de novedades.
-- Supervisar acomodación de áreas comunes y salas de diferentes áreas del hotel.
-- Controlar y suministrar productos de limpieza, lavandería y amenté en habitaciones y en áreas públicos del hotel.
-- Realizar pedido semanal para suministros de aseos y limpiezas.
-- Se encarga de tener bajo reporte y seguridad todo objeto olvidado por el huésped.
-- Realiza inventarios de insumos.
-- Mantiene registro de movimientos diarios de habitaciones bajo bitácora.
-- Organizar y supervisar y recibir, lavandería y lencería.
-- Realizar funcione que le asigne el jefe inmediato.
+Coordinar orden y limpieza del hotel en todas las áreas.
+Asignación de turnos y trabajos para el personal a cargo.
+Asignación de trabajo para el día.
+Realizar reporte de ocupación.
+Realizar reporte de novedades.
+Supervisar acomodación de áreas comunes y salas de diferentes áreas del hotel.
+Controlar y suministrar productos de limpieza, lavandería y amenté en habitaciones y en áreas públicos del hotel.
+Realizar pedido semanal para suministros de aseos y limpiezas.
+Se encarga de tener bajo reporte y seguridad todo objeto olvidado por el huésped.
+Realiza inventarios de insumos.
+Mantiene registro de movimientos diarios de habitaciones bajo bitácora.
+Organizar y supervisar y recibir, lavandería y lencería.
+Realizar funcione que le asigne el jefe inmediato.
 
 **RESPONSABILIDADES DEL CARGO**
 
-- Asistir a las reuniones a que sean convocados por el coordinador del SIG y por Gerencia.
-- Cumplir los objetivos, normas establecidas en el sistema de Gestión Integral, reglamento interno de trabajo, Higiene y Seguridad Industrial.
-- Conocer los factores de riesgo propios de su cargo y de cada oficio a su cargo, a su vez los efectos derivados de la exposición y las medidas preventivas y de protección de toda la empresa.
-- Mantener los lineamientos de ética y rigor en cada una de las funciones realizadas en su cargo.
-- Colaborar activamente en el desarrollo de las actividades de Seguridad Salud Ocupacional de la empresa.
-- Informar al Comité Paritario de Salud Ocupacional sobre cualquier Factor de Riesgo que exista en el sitio de trabajo o cualquier área de la empresa.
-- Informar la ocurrencia de accidentes e incidentes de trabajo en forma oportuna.
-- Informar a Gestión Humana sobre la ocurrencia de situaciones que tengan incidencia con los colaboradores.
-- Aportar con base a su experiencia sugerencias que permitan controlar o evitar riesgos existentes en su lugar de trabajo.
-- Mantener su lugar de trabajo en orden y limpio.
-- Rendir cuenta a los superiores de sus funciones y responsabilidades.
-- Garantizar la satisfacción del cliente interno y externo.
-- Asegurar que los requisitos del SGI se establezcan, implementen y mantengan de acuerdo con las normas establecidas en ISO 9001, ISO 45001:2018 e ISO 14001.
-- Cumplir los lineamientos establecidos en el procedimiento de gestión de residuos sólidos de la compañía.
+Asistir a las reuniones a que sean convocados por el coordinador del SIG y por Gerencia.
+Cumplir los objetivos, normas establecidas en el sistema de Gestión Integral, reglamento interno de trabajo, Higiene y Seguridad Industrial.
+Conocer los factores de riesgo propios de su cargo y de cada oficio a su cargo, a su vez los efectos derivados de la exposición y las medidas preventivas y de protección de toda la empresa.
+Mantener los lineamientos de ética y rigor en cada una de las funciones realizadas en su cargo.
+Colaborar activamente en el desarrollo de las actividades de Seguridad Salud Ocupacional de la empresa.
+Informar al Comité Paritario de Salud Ocupacional sobre cualquier Factor de Riesgo que exista en el sitio de trabajo o cualquier área de la empresa.
+Informar la ocurrencia de accidentes e incidentes de trabajo en forma oportuna.
+Informar a Gestión Humana sobre la ocurrencia de situaciones que tengan incidencia con los colaboradores.
+Aportar con base a su experiencia sugerencias que permitan controlar o evitar riesgos existentes en su lugar de trabajo.
+Mantener su lugar de trabajo en orden y limpio.
+Rendir cuenta a los superiores de sus funciones y responsabilidades.
+Garantizar la satisfacción del cliente interno y externo.
+Asegurar que los requisitos del SGI se establezcan, implementen y mantengan de acuerdo con las normas establecidas en ISO 9001, ISO 45001:2018 e ISO 14001.
+Cumplir los lineamientos establecidos en el procedimiento de gestión de residuos sólidos de la compañía.
 
 **SEXTA. OBLIGACIONES DEL TRABAJADOR**
 
