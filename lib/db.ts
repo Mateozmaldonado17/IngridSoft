@@ -57,8 +57,20 @@ function migrate(database: Database.Database) {
     CREATE INDEX IF NOT EXISTS idx_rol_atributos_rol ON rol_atributos(rol_id);
   `);
 
+  ensureEmployeeVariant(database);
   seedRoles(database);
   seedContracts(database);
+}
+
+function ensureEmployeeVariant(database: Database.Database) {
+  const columns = database.prepare("PRAGMA table_info(usuarios)").all() as Array<{ name: string }>;
+  if (columns.some((column) => column.name === "variante")) return;
+  database.exec("ALTER TABLE usuarios ADD COLUMN variante TEXT NOT NULL DEFAULT 'principal'");
+  database.exec(`
+    UPDATE usuarios
+    SET variante = 'obra_labor'
+    WHERE rol_id = (SELECT id FROM roles WHERE nombre = 'RECEPCIONISTA')
+  `);
 }
 
 const CONTRACT_FILES = [
@@ -66,44 +78,55 @@ const CONTRACT_FILES = [
     rol: "LIDER DE CAMARERIA",
     file: "lider-de-camameria.md",
     titulo: "Contrato de líder de camarería",
+    variante: "principal",
+    etiqueta: "Contrato",
   },
   {
     rol: "AUXILIAR DE ÁREAS PÚBLICAS",
     file: "auxiliar-areas-publicas.md",
     titulo: "Contrato de auxiliar de áreas públicas",
+    variante: "principal",
+    etiqueta: "Contrato",
   },
   {
     rol: "CAMARERA",
     file: "camarera.md",
     titulo: "Contrato de camarera",
+    variante: "principal",
+    etiqueta: "Contrato",
   },
   {
     rol: "RECEPCIONISTA",
     file: "recepcionista.md",
-    titulo: "Contrato de recepcionista",
+    titulo: "Contrato de recepcionista por obra o labor",
+    variante: "obra_labor",
+    etiqueta: "Obra o labor",
+  },
+  {
+    rol: "RECEPCIONISTA",
+    file: "recepcionista-termino-fijo.md",
+    titulo: "Contrato de recepcionista a término fijo",
+    variante: "termino_fijo",
+    etiqueta: "Término fijo",
   },
   {
     rol: "AUXILIAR DE COCINA",
     file: "auxiliar-de-cocina.md",
     titulo: "Contrato de auxiliar de cocina",
+    variante: "principal",
+    etiqueta: "Contrato",
   },
 ] as const;
 
 function seedContracts(database: Database.Database) {
-  database.exec(`
-    CREATE TABLE IF NOT EXISTS contratos (
-      id INTEGER PRIMARY KEY,
-      rol_id INTEGER NOT NULL UNIQUE REFERENCES roles(id) ON DELETE CASCADE,
-      titulo TEXT NOT NULL,
-      contenido_md TEXT NOT NULL
-    );
-  `);
+  ensureContractVariants(database);
 
   const findRole = database.prepare("SELECT id FROM roles WHERE nombre = ?");
   const upsert = database.prepare(
-    `INSERT INTO contratos (rol_id, titulo, contenido_md)
-     VALUES (?, ?, ?)
-     ON CONFLICT(rol_id) DO UPDATE SET
+    `INSERT INTO contratos (rol_id, variante, etiqueta, titulo, contenido_md)
+     VALUES (?, ?, ?, ?, ?)
+     ON CONFLICT(rol_id, variante) DO UPDATE SET
+       etiqueta = excluded.etiqueta,
        titulo = excluded.titulo,
        contenido_md = excluded.contenido_md`,
   );
@@ -111,16 +134,63 @@ function seedContracts(database: Database.Database) {
   const seed = database.transaction(() => {
     for (const contract of CONTRACT_FILES) {
       const role = findRole.get(contract.rol) as { id: number } | undefined;
-      if (!role) throw new Error(`No existe el rol ${contract.rol}.`);
+      if (!role) throw new Error(`No existe el rol ${contract.rol} para ${contract.file}.`);
       const contenido = fs.readFileSync(
         path.join(process.cwd(), "content", "contratos", contract.file),
         "utf8",
       );
-      upsert.run(role.id, contract.titulo, contenido.trim());
+      upsert.run(role.id, contract.variante, contract.etiqueta, contract.titulo, contenido.trim());
     }
   });
 
   seed();
+}
+
+function ensureContractVariants(database: Database.Database) {
+  const table = database
+    .prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'contratos'")
+    .get() as { name: string } | undefined;
+
+  if (!table) {
+    database.exec(`
+      CREATE TABLE contratos (
+        id INTEGER PRIMARY KEY,
+        rol_id INTEGER NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
+        variante TEXT NOT NULL,
+        etiqueta TEXT NOT NULL,
+        titulo TEXT NOT NULL,
+        contenido_md TEXT NOT NULL,
+        UNIQUE (rol_id, variante)
+      );
+    `);
+    return;
+  }
+
+  const columns = database.prepare("PRAGMA table_info(contratos)").all() as Array<{ name: string }>;
+  if (columns.some((column) => column.name === "variante")) return;
+
+  database.exec(`
+    CREATE TABLE contratos_variante (
+      id INTEGER PRIMARY KEY,
+      rol_id INTEGER NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
+      variante TEXT NOT NULL,
+      etiqueta TEXT NOT NULL,
+      titulo TEXT NOT NULL,
+      contenido_md TEXT NOT NULL,
+      UNIQUE (rol_id, variante)
+    );
+
+    INSERT INTO contratos_variante (id, rol_id, variante, etiqueta, titulo, contenido_md)
+    SELECT c.id, c.rol_id,
+      CASE WHEN r.nombre = 'RECEPCIONISTA' THEN 'obra_labor' ELSE 'principal' END,
+      CASE WHEN r.nombre = 'RECEPCIONISTA' THEN 'Obra o labor' ELSE 'Contrato' END,
+      c.titulo, c.contenido_md
+    FROM contratos c
+    JOIN roles r ON r.id = c.rol_id;
+
+    DROP TABLE contratos;
+    ALTER TABLE contratos_variante RENAME TO contratos;
+  `);
 }
 
 function seedRoles(database: Database.Database) {

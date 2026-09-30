@@ -6,6 +6,7 @@ import { deleteEmployee, saveEmployee, type SaveResult } from "@/lib/employees";
 export async function saveEmployeeAction(input: {
   usuarioId: number | null;
   rolId: number;
+  variante: string;
   valores: Record<string, string>;
 }): Promise<SaveResult> {
   const result = saveEmployee(input);

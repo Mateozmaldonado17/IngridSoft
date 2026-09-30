@@ -39,6 +39,7 @@ export function StaffBoard({
   const router = useRouter();
   const [editingId, setEditingId] = useState<number | null>(null);
   const [rolId, setRolId] = useState<number | "">("");
+  const [variante, setVariante] = useState("");
   const [valores, setValores] = useState<Record<string, string>>({});
   const [errores, setErrores] = useState<Record<string, string>>({});
   const [banner, setBanner] = useState("");
@@ -53,7 +54,9 @@ export function StaffBoard({
   );
 
   function selectRole(nextRoleId: number | "") {
+    const role = roles.find((item) => item.id === nextRoleId);
     setRolId(nextRoleId);
+    setVariante(role && role.variantes.length === 1 ? role.variantes[0].clave : "");
     setErrores({});
     setBanner("");
   }
@@ -61,6 +64,7 @@ export function StaffBoard({
   function beginEdit(employee: EmployeeRecord) {
     setEditingId(employee.id);
     setRolId(employee.rolId);
+    setVariante(employee.variante);
     setValores({ ...employee.valores });
     setErrores({});
     setBanner("");
@@ -70,6 +74,7 @@ export function StaffBoard({
   function resetForm() {
     setEditingId(null);
     setRolId("");
+    setVariante("");
     setValores({});
     setErrores({});
   }
@@ -79,6 +84,12 @@ export function StaffBoard({
     if (!selectedRole) {
       setErrores({ rolId: "Selecciona un rol." });
       setBanner("Selecciona el rol antes de guardar.");
+      return;
+    }
+
+    if (selectedRole.variantes.length > 1 && !selectedRole.variantes.some((item) => item.clave === variante)) {
+      setErrores({ variante: "Elige el tipo de contrato." });
+      setBanner("Elige si el contrato de recepcionista es por obra o labor, o a término fijo.");
       return;
     }
 
@@ -93,6 +104,7 @@ export function StaffBoard({
     const result = await saveEmployeeAction({
       usuarioId: editingId,
       rolId: selectedRole.id,
+      variante,
       valores: validation.valores,
     });
     setPending(false);
@@ -179,6 +191,33 @@ export function StaffBoard({
           </select>
         </label>
         {errores.rolId ? <FieldError message={errores.rolId} /> : null}
+        {selectedRole && selectedRole.variantes.length > 1 ? (
+          <label className="mt-4 flex flex-col gap-1.5 text-sm font-medium text-[#44403c]">
+            Tipo de contrato
+            <select
+              name="variante"
+              value={variante}
+              onChange={(event) => {
+                setVariante(event.target.value);
+                setErrores((current) => {
+                  if (!current.variante) return current;
+                  const rest = { ...current };
+                  delete rest.variante;
+                  return rest;
+                });
+              }}
+              className="h-11 rounded-lg border border-[#d6d3d1] bg-white px-3 text-base font-normal text-[#1f1a17]"
+            >
+              <option value="">Selecciona la variante</option>
+              {selectedRole.variantes.map((item) => (
+                <option key={item.clave} value={item.clave}>
+                  {item.etiqueta}
+                </option>
+              ))}
+            </select>
+            {errores.variante ? <FieldError message={errores.variante} /> : null}
+          </label>
+        ) : null}
         {selectedRole ? (
           <p className="mt-3 text-sm leading-6 text-[#57534e]">{selectedRole.descripcion}</p>
         ) : null}
@@ -262,7 +301,14 @@ export function StaffBoard({
               ) : (
                 employees.map((employee) => (
                   <tr key={employee.id} className="border-t border-[#efeae2] align-top">
-                    <td className="px-4 py-3 font-medium text-[#1f1a17]">{employee.rolNombre}</td>
+                    <td className="px-4 py-3 font-medium text-[#1f1a17]">
+                      {employee.rolNombre}
+                      {employee.variante !== "principal" ? (
+                        <span className="mt-1 block text-xs font-normal text-[#78716c]">
+                          {employee.varianteEtiqueta}
+                        </span>
+                      ) : null}
+                    </td>
                     {COLUMNS.map(([key]) => (
                       <td key={key} className="max-w-[220px] px-4 py-3 text-[#44403c]">
                         {employee.valores[key] ?? "—"}

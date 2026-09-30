@@ -20,6 +20,8 @@ type EmployeeJoinRow = {
   id: number;
   rol_id: number;
   rol_nombre: string;
+  variante: string;
+  variante_etiqueta: string | null;
   clave: string | null;
   valor: string | null;
 };
@@ -35,6 +37,9 @@ export function listRoles(): RoleRecord[] {
        ORDER BY orden`,
     )
     .all() as AttributeRow[];
+  const variants = db
+    .prepare("SELECT rol_id, variante, etiqueta FROM contratos ORDER BY id")
+    .all() as Array<{ rol_id: number; variante: string; etiqueta: string }>;
 
   return roles.map((role) => ({
     id: role.id,
@@ -43,15 +48,20 @@ export function listRoles(): RoleRecord[] {
     atributos: attributes
       .filter((attribute) => attribute.rol_id === role.id)
       .map(toAttribute),
+    variantes: variants
+      .filter((variant) => variant.rol_id === role.id)
+      .map((variant) => ({ clave: variant.variante, etiqueta: variant.etiqueta })),
   }));
 }
 
 export function listEmployees(rolId: number | null): EmployeeRecord[] {
   const rows = db
     .prepare(
-      `SELECT u.id, u.rol_id, r.nombre AS rol_nombre, a.clave, d.valor
+      `SELECT u.id, u.rol_id, u.variante, r.nombre AS rol_nombre,
+              c.etiqueta AS variante_etiqueta, a.clave, d.valor
        FROM usuarios u
        JOIN roles r ON r.id = u.rol_id
+       LEFT JOIN contratos c ON c.rol_id = u.rol_id AND c.variante = u.variante
        LEFT JOIN usuario_datos d ON d.usuario_id = u.id
        LEFT JOIN rol_atributos a ON a.id = d.atributo_id
        WHERE (? IS NULL OR u.rol_id = ?)
@@ -65,6 +75,8 @@ export function listEmployees(rolId: number | null): EmployeeRecord[] {
       id: row.id,
       rolId: row.rol_id,
       rolNombre: row.rol_nombre,
+      variante: row.variante,
+      varianteEtiqueta: row.variante_etiqueta ?? "",
       valores: {},
     };
     if (row.clave && row.valor != null) current.valores[row.clave] = row.valor;
@@ -76,11 +88,22 @@ export function listEmployees(rolId: number | null): EmployeeRecord[] {
 export function saveEmployee(input: {
   usuarioId: number | null;
   rolId: number;
+  variante: string;
   valores: Record<string, string>;
 }): SaveResult {
   const role = listRoles().find((item) => item.id === input.rolId);
   if (!role) {
     return { ok: false, message: "Selecciona un rol válido.", errores: { rolId: "Selecciona un rol." } };
+  }
+
+  const variante =
+    role.variantes.length === 1 ? role.variantes[0].clave : input.variante;
+  if (!role.variantes.some((item) => item.clave === variante)) {
+    return {
+      ok: false,
+      message: "Elige el tipo de contrato.",
+      errores: { variante: "Elige el tipo de contrato." },
+    };
   }
 
   const validation = validateValues(role.atributos, input.valores);
@@ -125,12 +148,14 @@ export function saveEmployee(input: {
   const persist = db.transaction(() => {
     let usuarioId = input.usuarioId;
     if (usuarioId == null) {
-      const info = db.prepare("INSERT INTO usuarios (rol_id) VALUES (?)").run(role.id);
+      const info = db
+        .prepare("INSERT INTO usuarios (rol_id, variante) VALUES (?, ?)")
+        .run(role.id, variante);
       usuarioId = Number(info.lastInsertRowid);
     } else {
       db.prepare(
-        "UPDATE usuarios SET rol_id = ?, actualizado_en = ? WHERE id = ?",
-      ).run(role.id, now, usuarioId);
+        "UPDATE usuarios SET rol_id = ?, variante = ?, actualizado_en = ? WHERE id = ?",
+      ).run(role.id, variante, now, usuarioId);
       db.prepare("DELETE FROM usuario_datos WHERE usuario_id = ?").run(usuarioId);
     }
 
@@ -157,12 +182,17 @@ export function getEmployee(usuarioId: number): EmployeeRecord | null {
   return listEmployees(null).find((employee) => employee.id === usuarioId) ?? null;
 }
 
-export function getContract(rolId: number): { titulo: string; contenidoMd: string } | null {
+export function getContract(
+  rolId: number,
+  variante: string,
+): { titulo: string; contenidoMd: string } | null {
   const row = db
     .prepare(
-      "SELECT titulo, contenido_md AS contenidoMd FROM contratos WHERE rol_id = ?",
+      `SELECT titulo, contenido_md AS contenidoMd
+       FROM contratos
+       WHERE rol_id = ? AND variante = ?`,
     )
-    .get(rolId) as { titulo: string; contenidoMd: string } | undefined;
+    .get(rolId, variante) as { titulo: string; contenidoMd: string } | undefined;
   return row ?? null;
 }
 

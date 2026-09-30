@@ -15,7 +15,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
     return Response.json({ error: "No se encontró el empleado." }, { status: 404 });
   }
 
-  const contract = getContract(employee.rolId);
+  const contract = getContract(employee.rolId, employee.variante);
   if (!contract) {
     return Response.json({ error: "Este rol no tiene un contrato." }, { status: 404 });
   }
