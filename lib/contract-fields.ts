@@ -156,6 +156,12 @@ export const ROLE_SEEDS: Array<{
       "Atiende el ingreso y la recepción. Exige los datos de contrato de recepcionista.",
     atributos: contractAttributes("MATEO JOSE ZARATE MENDOZA", "RECEPCIONISTA"),
   },
+  {
+    nombre: "AUXILIAR DE COCINA",
+    descripcion:
+      "Apoya la preparación y el alistamiento en cocina. Exige los datos de contrato de este cargo.",
+    atributos: contractAttributes("XXXXX", "AUXILIAR DE COCINA"),
+  },
 ];
 
 function contractAttributes(nombreEjemplo: string, cargoEjemplo: string): FieldSeed[] {

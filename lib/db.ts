@@ -57,10 +57,7 @@ function migrate(database: Database.Database) {
     CREATE INDEX IF NOT EXISTS idx_rol_atributos_rol ON rol_atributos(rol_id);
   `);
 
-  const row = database.prepare("SELECT COUNT(*) AS total FROM roles").get() as {
-    total: number;
-  };
-  if (row.total === 0) seedRoles(database);
+  seedRoles(database);
   seedContracts(database);
 }
 
@@ -84,6 +81,11 @@ const CONTRACT_FILES = [
     rol: "RECEPCIONISTA",
     file: "recepcionista.md",
     titulo: "Contrato de recepcionista",
+  },
+  {
+    rol: "AUXILIAR DE COCINA",
+    file: "auxiliar-de-cocina.md",
+    titulo: "Contrato de auxiliar de cocina",
   },
 ] as const;
 
@@ -131,8 +133,11 @@ function seedRoles(database: Database.Database) {
      VALUES (?, ?, ?, ?, ?, 1, ?)`,
   );
 
+  const findRole = database.prepare("SELECT id FROM roles WHERE nombre = ?");
+
   const seed = database.transaction(() => {
     for (const role of ROLE_SEEDS) {
+      if (findRole.get(role.nombre)) continue;
       const info = insertRole.run(role.nombre, role.descripcion);
       const roleId = Number(info.lastInsertRowid);
       role.atributos.forEach((attribute, index) => {
