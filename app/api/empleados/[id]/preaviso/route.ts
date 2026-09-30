@@ -44,7 +44,11 @@ function readPreavisoOptions(url: URL): { tipo: PreavisoTipo; fecha: string } | 
   const tipo = url.searchParams.get("tipo");
   const formato = url.searchParams.get("formato");
   const fecha = preavisoDate(url.searchParams.get("fecha") ?? "", formato as PreavisoFormato);
-  if ((tipo !== "fijo" && tipo !== "indefinido") || (formato !== "hablado" && formato !== "corto") || !fecha) {
+  if (
+    (tipo !== "fijo" && tipo !== "indefinido" && tipo !== "obra") ||
+    (formato !== "hablado" && formato !== "corto") ||
+    !fecha
+  ) {
     return null;
   }
   return { tipo, fecha };

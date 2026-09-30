@@ -365,7 +365,7 @@ export function StaffBoard({
 }
 
 function PreavisoDialog({ employee, onClose }: { employee: EmployeeRecord; onClose: () => void }) {
-  const [tipo, setTipo] = useState<PreavisoTipo>("fijo");
+  const [tipo, setTipo] = useState<PreavisoTipo>(employee.variante === "termino_fijo" ? "fijo" : "obra");
   const [formato, setFormato] = useState<PreavisoFormato>("corto");
   const [fecha, setFecha] = useState(isoFromSpoken(employee.valores.fecha_fin ?? ""));
   const fechaTexto = preavisoDate(fecha, formato);
@@ -407,13 +407,20 @@ function PreavisoDialog({ employee, onClose }: { employee: EmployeeRecord; onClo
 
         <fieldset className="mt-5">
           <legend className="text-sm font-medium text-[#44403c]">Tipo de contrato</legend>
-          <div className="mt-2 grid gap-2 sm:grid-cols-2">
+          <div className="mt-2 grid gap-2">
             <Choice
               name="tipo"
               checked={tipo === "fijo"}
               onChange={() => setTipo("fijo")}
               title="Término fijo"
               detail="Aviso de no prórroga, con al menos 30 días, según el artículo 46."
+            />
+            <Choice
+              name="tipo"
+              checked={tipo === "obra"}
+              onChange={() => setTipo("obra")}
+              title="Obra o labor"
+              detail="Aviso de terminación porque finalizó la obra o labor contratada."
             />
             <Choice
               name="tipo"
@@ -459,9 +466,7 @@ function PreavisoDialog({ employee, onClose }: { employee: EmployeeRecord; onClo
 
         <p className="mt-4 rounded-lg bg-[#f7f4ef] px-3 py-2 text-sm leading-6 text-[#1f1a17]">
           {fechaTexto
-            ? tipo === "fijo"
-              ? `En el preaviso: teniendo como fecha de vencimiento el ${fechaTexto}.`
-              : `En el preaviso: teniendo como fecha de terminación el ${fechaTexto}.`
+            ? `En el preaviso: teniendo como fecha de ${tipo === "fijo" ? "vencimiento" : "terminación"} el ${fechaTexto}.`
             : "Elige una fecha válida."}
         </p>
 
